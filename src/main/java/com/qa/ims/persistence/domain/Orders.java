@@ -5,26 +5,26 @@ public class Orders {
 	//Fields
 	private Long detailsId;
 	private Long orderId;//foreign key
-	private Long customerId;//foreign key
-	private String orderDescription;
+	private Long itemId;//foreign key
+	private int quantity;
 	private String orderStatus;
 	
 	//Constructors without ID
-	public Orders(Long orderId, Long customerId, String orderDescription, String orderStatus) { 
+	public Orders(Long orderId, Long itemId, int quantity, String orderStatus) { 
 		this.orderId = orderId;
-		this.customerId = customerId;
-		this.orderDescription = orderDescription;
+		this.itemId = itemId;
+		this.quantity = quantity;
 		this.orderStatus = orderStatus;
 	}
 
 
 	//Constructors with ID
-	public Orders(Long detailsId, Long orderId, Long customerId, String orderDescription,
+	public Orders(Long detailsId, Long orderId, Long itemId, int quantity,
 			String orderStatus) {
 		this.detailsId = detailsId;
 		this.orderId = orderId;
-		this.customerId = customerId;
-		this.orderDescription = orderDescription;
+		this.itemId = itemId;
+		this.quantity = quantity;
 		this.orderStatus = orderStatus;
 	}
 
@@ -46,20 +46,20 @@ public class Orders {
 		this.orderId = orderId;
 	}
 
-	public Long getCustomerId() {
-		return customerId;
+	public Long getItemId() {
+		return itemId;
 	}
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
 	}
 
-	public String getOrderDescription() {
-		return orderDescription;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setOrderDescription(String orderDescription) {
-		this.orderDescription = orderDescription;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public String getOrderStatus() {
@@ -73,21 +73,23 @@ public class Orders {
 	//toString
 	@Override
 	public String toString() {
-		return "Orders Details Id: " + detailsId + ", Order Id: " + orderId + ", Customer Id: " + customerId + ", Order Description: " + orderDescription + ", Order Status: " + orderStatus;
+		return "Orders Details Id: " + detailsId + ", Order Id: " + orderId + ", Item Id: " + itemId + ", Quantity: " + quantity + ", Order Status: " + orderStatus;
 	}
+
 
 	//Hash and Equals
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
 		result = prime * result + ((detailsId == null) ? 0 : detailsId.hashCode());
-		result = prime * result + ((orderDescription == null) ? 0 : orderDescription.hashCode());
+		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
+		result = prime * result + quantity;
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -98,20 +100,15 @@ public class Orders {
 		if (getClass() != obj.getClass())
 			return false;
 		Orders other = (Orders) obj;
-		if (customerId == null) {
-			if (other.customerId != null)
-				return false;
-		} else if (!customerId.equals(other.customerId))
-			return false;
 		if (detailsId == null) {
 			if (other.detailsId != null)
 				return false;
 		} else if (!detailsId.equals(other.detailsId))
 			return false;
-		if (orderDescription == null) {
-			if (other.orderDescription != null)
+		if (itemId == null) {
+			if (other.itemId != null)
 				return false;
-		} else if (!orderDescription.equals(other.orderDescription))
+		} else if (!itemId.equals(other.itemId))
 			return false;
 		if (orderId == null) {
 			if (other.orderId != null)
@@ -123,9 +120,14 @@ public class Orders {
 				return false;
 		} else if (!orderStatus.equals(other.orderStatus))
 			return false;
+		if (quantity != other.quantity)
+			return false;
 		return true;
 	}
 
+	
+	
+	
 
 	
 	

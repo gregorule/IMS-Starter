@@ -22,10 +22,10 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long detailsId = resultSet.getLong("details_id");
 		Long orderId = resultSet.getLong("order_id");
-		Long customerId = resultSet.getLong("customer_id");
-		String orderDesc = resultSet.getString("order_description");
+		Long itemId = resultSet.getLong("item_id");
 		String orderStat = resultSet.getString("order_status");
-		return new Orders(detailsId, orderId, customerId, orderDesc, orderStat);
+		int quantity = resultSet.getInt("quantity");
+		return new Orders(detailsId, orderId, itemId, quantity, orderStat);
 	}
 
 	//readAll
@@ -83,9 +83,10 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders create(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO items(order_description, order_status) VALUES (?, ?)");) {
-			statement.setString(1, orders.getOrderDescription());
+						.prepareStatement("INSERT INTO order_details(item_id, order_status, quantity) VALUES (?, ?, ?)");) {
+			statement.setLong(1, orders.getItemId());
 			statement.setString(2, orders.getOrderStatus());
+			statement.setInt(3, orders.getQuantity());
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
@@ -101,9 +102,11 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders update(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE order_details SET order_description = ?, order_status = ? WHERE details_id = ?");) {
-			statement.setString(1, orders.getOrderDescription());
+						.prepareStatement("UPDATE order_details SET item_id = ?, order_status = ?, quantity = ? WHERE details_id = ?");) {
+			statement.setLong(1, orders.getItemId());
 			statement.setString(2, orders.getOrderStatus());
+			statement.setInt(3, orders.getQuantity());
+			statement.setLong(4, orders.getDetailsId());
 			statement.executeUpdate();
 			return read(orders.getDetailsId());
 		} catch (Exception e) {

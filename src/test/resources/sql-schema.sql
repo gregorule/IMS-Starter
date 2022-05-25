@@ -18,3 +18,16 @@ CREATE TABLE IF NOT EXISTS `items`(
 `in_stock` INT DEFAULT NULL,
 PRIMARY KEY (item_id)
 );
+
+DROP TABLE IF EXISTS `order_details`;
+
+CREATE TABLE IF NOT EXISTS order_details(
+`details_id` int NOT NULL auto_increment,
+`order_id` int NOT NULL,
+`item_id` int NOT NULL,
+`quantity` int NOT NULL,
+`order_status` varchar(50) NOT NULL,
+primary key(details_id),
+foreign key(order_id) references orders(order_id),
+foreign key(item_id) references items(item_id)
+);

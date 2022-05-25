@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrdersDAO;
 import com.qa.ims.persistence.domain.Orders;
 import com.qa.ims.utils.Utils;
@@ -16,6 +17,7 @@ public class OrdersController implements CrudController<Orders>{
 	//Fields
 	private OrdersDAO ordersDAO;
 	private Utils utils;
+	private ItemDAO itemDAO;
 	
 	//Constructors
 	public OrdersController(OrdersDAO ordersDAO, Utils utils) {
@@ -38,13 +40,13 @@ public class OrdersController implements CrudController<Orders>{
 	public Orders create() {
 		LOGGER.info("Please enter the order ID");
 		Long orderId = utils.getLong();
-		LOGGER.info("Please enter the customer ID");
-		Long customerId = utils.getLong();
+		LOGGER.info("Please enter the item ID");
+		Long itemId = utils.getLong();
 		LOGGER.info("Please enter a list of what was bought");
 		String orderDesc = utils.getString();
 		LOGGER.info("Please enter the status of this order");
 		String orderStat = utils.getString();
-		Orders orders = ordersDAO.create(new Orders(orderId, customerId, orderDesc, orderStat));
+		Orders orders = ordersDAO.create(new Orders(orderId, itemId, orderDesc, orderStat));
 		LOGGER.info("Item created");
 		return orders;
 	}
@@ -54,13 +56,13 @@ public class OrdersController implements CrudController<Orders>{
 	public Orders update() {
 		LOGGER.info("Please enter the order ID");
 		Long orderId = utils.getLong();
-		LOGGER.info("Please enter the customer ID");
-		Long customerId = utils.getLong();
+		LOGGER.info("Please enter the item ID");
+		Long itemId = utils.getLong();
 		LOGGER.info("Please enter a list of what was bought");
 		String orderDesc = utils.getString();
 		LOGGER.info("Please enter the status of this order");
 		String orderStat = utils.getString();
-		Orders orders = ordersDAO.update(new Orders(orderId, customerId, orderDesc, orderStat));
+		Orders orders = ordersDAO.update(new Orders(orderId, itemId, orderDesc, orderStat));
 		LOGGER.info("Item updated");
 		return orders;
 	}
@@ -69,8 +71,8 @@ public class OrdersController implements CrudController<Orders>{
 	@Override
 	public int delete() {
 		LOGGER.info("Please enter the id of the order you would like to delete");
-		Long itemId = utils.getLong();
-		return ordersDAO.delete(itemId);
+		Long detailsId = utils.getLong();
+		return ordersDAO.delete(detailsId);
 	}
 	
 	
