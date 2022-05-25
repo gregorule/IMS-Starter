@@ -10,8 +10,7 @@ public class Orders {
 	private String orderStatus;
 	
 	//Constructors without ID
-	public Orders(Long orderId, Long customerId, String orderDescription, String orderStatus) {
-		super();
+	public Orders(Long orderId, Long customerId, String orderDescription, String orderStatus) { 
 		this.orderId = orderId;
 		this.customerId = customerId;
 		this.orderDescription = orderDescription;

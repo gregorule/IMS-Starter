@@ -34,13 +34,17 @@ public class OrdersController implements CrudController<Orders>{
 	}
 
 	//for the user to create an order
-/*	@Override
+	@Override
 	public Orders create() {
+		LOGGER.info("Please enter the order ID");
+		Long orderId = utils.getLong();
+		LOGGER.info("Please enter the customer ID");
+		Long customerId = utils.getLong();
 		LOGGER.info("Please enter a list of what was bought");
 		String orderDesc = utils.getString();
 		LOGGER.info("Please enter the status of this order");
 		String orderStat = utils.getString();
-		Orders orders = ordersDAO.create(new Orders(orderDesc, orderStat));
+		Orders orders = ordersDAO.create(new Orders(orderId, customerId, orderDesc, orderStat));
 		LOGGER.info("Item created");
 		return orders;
 	}
@@ -48,15 +52,19 @@ public class OrdersController implements CrudController<Orders>{
 	//for the user to update an order
 	@Override
 	public Orders update() {
+		LOGGER.info("Please enter the order ID");
+		Long orderId = utils.getLong();
+		LOGGER.info("Please enter the customer ID");
+		Long customerId = utils.getLong();
 		LOGGER.info("Please enter a list of what was bought");
 		String orderDesc = utils.getString();
 		LOGGER.info("Please enter the status of this order");
 		String orderStat = utils.getString();
-		Orders orders = ordersDAO.update(new Orders(orderDesc, orderStat));
+		Orders orders = ordersDAO.update(new Orders(orderId, customerId, orderDesc, orderStat));
 		LOGGER.info("Item updated");
 		return orders;
 	}
-*/
+
 	//for the user to delete an order
 	@Override
 	public int delete() {

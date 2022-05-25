@@ -20,6 +20,7 @@ public class CustomerDAOTest {
 		DBUtils.connect();
 		DBUtils.getInstance().init("src/test/resources/sql-schema.sql", "src/test/resources/sql-data.sql");
 	}
+	
 
 	@Test
 	public void testCreate() {
