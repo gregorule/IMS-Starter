@@ -32,34 +32,39 @@ public class OrdersControllerTest {
 	//testing creating an order
 	@Test
 	public void testCreate() {
-		final Long orderId = 1L, customerId = 1L;
-		final String orderDesc = "Apple", orderStatus = "Deleived";
-		final Orders created = new Orders(orderId, customerId, orderDesc, orderStatus);
+		final Long orderId = 1L, itemId = 1L;
+		final String orderStatus = "Deleived";
+		final int quantity = 20;
+		final Orders created = new Orders(orderId, itemId, quantity, orderStatus);
 
-		Mockito.when(utils.getLong()).thenReturn(orderId, customerId);
-		Mockito.when(utils.getString()).thenReturn(orderDesc, orderStatus);
+		Mockito.when(utils.getLong()).thenReturn(orderId, itemId);
+		Mockito.when(utils.getString()).thenReturn(orderStatus);
+		Mockito.when(utils.getInt()).thenReturn(quantity);
 		Mockito.when(dao.create(created)).thenReturn(created);
 
 		assertEquals(created, controller.create());
 
 		Mockito.verify(utils, Mockito.times(2)).getLong();
-		Mockito.verify(utils, Mockito.times(2)).getString();
+		Mockito.verify(utils, Mockito.times(1)).getString();
+		Mockito.verify(utils, Mockito.times(1)).getInt();
 		Mockito.verify(dao, Mockito.times(1)).create(created);
 	}
 	
 	//testing updating an order
 	@Test
 	public void testUpdate() {
-		Orders updated = new Orders(1L, 1L ,1L , "Apple", "Delievered");
+		Orders updated = new Orders(1L, 1L ,1L , 20, "Delievered");
 
-		Mockito.when(this.utils.getLong()).thenReturn(updated.getDetailsId(), updated.getOrderId(), updated.getCustomerId());
-		Mockito.when(this.utils.getString()).thenReturn(updated.getOrderDescription(), updated.getOrderStatus());
+		Mockito.when(this.utils.getLong()).thenReturn(updated.getDetailsId(), updated.getOrderId(), updated.getItemId());
+		Mockito.when(this.utils.getString()).thenReturn(updated.getOrderStatus());
+		Mockito.when(this.utils.getInt()).thenReturn(updated.getQuantity());
 		Mockito.when(this.dao.update(updated)).thenReturn(updated);
 
 		assertEquals(updated, this.controller.update());
 
 		Mockito.verify(this.utils, Mockito.times(3)).getLong();
-		Mockito.verify(this.utils, Mockito.times(2)).getString();
+		Mockito.verify(this.utils, Mockito.times(1)).getString();
+		Mockito.verify(this.utils, Mockito.times(1)).getInt();
 		Mockito.verify(this.dao, Mockito.times(1)).update(updated);
 	}
 	
@@ -67,7 +72,7 @@ public class OrdersControllerTest {
 	@Test
 	public void testReadAll() {
 		List<Orders> orders = new ArrayList<>();
-		orders.add(new Orders(1L, 1L, 1L, "Apples", "Delivered"));
+		orders.add(new Orders(1L, 1L, 1L, 20, "Delivered"));
 
 		Mockito.when(dao.readAll()).thenReturn(orders);
 
