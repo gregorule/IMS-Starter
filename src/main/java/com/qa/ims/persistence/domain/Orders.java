@@ -3,29 +3,42 @@ package com.qa.ims.persistence.domain;
 public class Orders {
 	
 	//Fields
-	private Long orderId;
-	private Long customerId;
-	private String orderDate;
+	private Long detailsId;
+	private Long orderId;//foreign key
+	private Long customerId;//foreign key
 	private String orderDescription;
+	private String orderStatus;
 	
 	//Constructors without ID
-	public Orders(Long customerId, String orderDate, String orderDescription) {
-		super();
-		this.customerId = customerId;
-		this.orderDate = orderDate;
-		this.orderDescription = orderDescription;
-	}
-
-	//Constructors with ID
-	public Orders(Long orderId, Long customerId, String orderDate, String orderDescription) {
+	public Orders(Long orderId, Long customerId, String orderDescription, String orderStatus) {
 		super();
 		this.orderId = orderId;
 		this.customerId = customerId;
-		this.orderDate = orderDate;
 		this.orderDescription = orderDescription;
+		this.orderStatus = orderStatus;
 	}
 
+
+	//Constructors with ID
+	public Orders(Long detailsId, Long orderId, Long customerId, String orderDescription,
+			String orderStatus) {
+		this.detailsId = detailsId;
+		this.orderId = orderId;
+		this.customerId = customerId;
+		this.orderDescription = orderDescription;
+		this.orderStatus = orderStatus;
+	}
+
+
 	//Getters and Setters
+	public Long getDetailsId() {
+		return detailsId;
+	}
+
+	public void setDetailsId(Long detailsId) {
+		this.detailsId = detailsId;
+	}
+
 	public Long getOrderId() {
 		return orderId;
 	}
@@ -42,14 +55,6 @@ public class Orders {
 		this.customerId = customerId;
 	}
 
-	public String getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(String orderDate) {
-		this.orderDate = orderDate;
-	}
-
 	public String getOrderDescription() {
 		return orderDescription;
 	}
@@ -58,25 +63,33 @@ public class Orders {
 		this.orderDescription = orderDescription;
 	}
 
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
 	//toString
 	@Override
 	public String toString() {
-		return "Orders [orderId=" + orderId + ", customerId=" + customerId + ", orderDate=" + orderDate
-				+ ", orderDescription=" + orderDescription + "]";
+		return "Orders Details Id: " + detailsId + ", Order Id: " + orderId + ", Customer Id: " + customerId + ", Order Description: " + orderDescription + ", Order Status: " + orderStatus;
 	}
 
+	//Hash and Equals
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
-		result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
+		result = prime * result + ((detailsId == null) ? 0 : detailsId.hashCode());
 		result = prime * result + ((orderDescription == null) ? 0 : orderDescription.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
 		return result;
 	}
 
-	//Hash and Equals
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -91,10 +104,10 @@ public class Orders {
 				return false;
 		} else if (!customerId.equals(other.customerId))
 			return false;
-		if (orderDate == null) {
-			if (other.orderDate != null)
+		if (detailsId == null) {
+			if (other.detailsId != null)
 				return false;
-		} else if (!orderDate.equals(other.orderDate))
+		} else if (!detailsId.equals(other.detailsId))
 			return false;
 		if (orderDescription == null) {
 			if (other.orderDescription != null)
@@ -106,8 +119,17 @@ public class Orders {
 				return false;
 		} else if (!orderId.equals(other.orderId))
 			return false;
+		if (orderStatus == null) {
+			if (other.orderStatus != null)
+				return false;
+		} else if (!orderStatus.equals(other.orderStatus))
+			return false;
 		return true;
 	}
+
+
+	
+	
 	
 	
 	

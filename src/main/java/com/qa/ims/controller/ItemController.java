@@ -19,7 +19,6 @@ public class ItemController implements CrudController<Item> {
 	
 	//Constructors
 	public ItemController(ItemDAO itemDAO, Utils utils) {
-		super();
 		this.itemDAO = itemDAO;
 		this.utils = utils;
 	}
