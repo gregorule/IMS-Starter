@@ -31,3 +31,12 @@ primary key(details_id),
 foreign key(order_id) references orders(order_id),
 foreign key(item_id) references items(item_id)
 );
+
+DROP TABLE IF EXISTS `orders`;
+
+CREATE TABLE IF NOT EXISTS orders(
+`order_id` int NOT NULL auto_increment,
+`customer_id` int NOT NULL,
+primary key(order_id),
+foreign key(customer_id) references customers(customer_id)
+);

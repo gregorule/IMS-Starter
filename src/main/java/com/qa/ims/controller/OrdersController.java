@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.LinkDAO;
 import com.qa.ims.persistence.dao.OrdersDAO;
+import com.qa.ims.persistence.domain.Link;
 import com.qa.ims.persistence.domain.Orders;
 import com.qa.ims.utils.Utils;
 
@@ -43,19 +44,22 @@ public class OrdersController implements CrudController<Orders>{
 	@Override
 	public Orders create() {
 		Long custId = null;
-        Orders order = null;
-        while (order == null) {
+        Link link = null;
+        while (link == null) {
         	LOGGER.info("Please enter a customer ID");
         	custId = utils.getLong(); 	
         	if(linkDAO == null) {
         		if(custId == -1) {
         			break;
         		}
-        		if(custId == null) {
+        		if(custId == null) {//if item doesn't exist, change this (for loops/streams)
         			LOGGER.info("Please enter an existing customer ID");
         			continue;
         		}
+        	}else {
+        		link = linkDAO.create(link);
         	}
+        Orders order = null;	
         Long itemId = null;
         while(order == null) {
         	LOGGER.info("Please enter the item ID");
@@ -78,8 +82,7 @@ public class OrdersController implements CrudController<Orders>{
 		}
 		return order;
         }
-		return order;
-        
+		return null;
 	}
 
 	//for the user to update an order

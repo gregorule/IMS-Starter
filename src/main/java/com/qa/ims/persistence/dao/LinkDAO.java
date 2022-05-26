@@ -29,7 +29,7 @@ public class LinkDAO implements Dao<Link>{
 	@Override
 	public int delete(long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_details WHERE details_id = ?");) {
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE order_id = ?");) {
 			statement.setLong(1, orderId);
 			return statement.executeUpdate();
 		} catch (Exception e) {
@@ -59,7 +59,7 @@ public class LinkDAO implements Dao<Link>{
 		public Link readLatest() {
 			try (Connection connection = DBUtils.getInstance().getConnection();
 					Statement statement = connection.createStatement();
-					ResultSet resultSet = statement.executeQuery("SELECT * FROM order ORDER BY order_id DESC LIMIT 1");) {
+					ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY order_id DESC LIMIT 1");) {
 				resultSet.next();
 				return modelFromResultSet(resultSet);
 			} catch (Exception e) {
@@ -73,7 +73,7 @@ public class LinkDAO implements Dao<Link>{
 	public Link create(Link link) {
 			try (Connection connection = DBUtils.getInstance().getConnection();
 					PreparedStatement statement = connection
-							.prepareStatement("INSERT INTO order_details(order_id, customer_id) VALUES (?, ?)");) {
+							.prepareStatement("INSERT INTO orders(order_id, customer_id) VALUES (?, ?)");) {
 				statement.setLong(1, link.getOrderId());
 				statement.setLong(2, link.getCustomerId());
 				statement.executeUpdate();
@@ -117,6 +117,8 @@ public class LinkDAO implements Dao<Link>{
 		}
 		return new ArrayList<>();
 	}
+
+	
 
 	
 	
