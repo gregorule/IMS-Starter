@@ -39,12 +39,16 @@ public class OrdersController implements CrudController<Orders>{
 		}
 		return orders;
 	}
-
+	
+	
 	//for the user to create an order
 	@Override
 	public Orders create() {
 		Long custId = null;
         Link link = null;
+        Orders order = null;	
+        Long itemId = null;
+        boolean itemLoop = true;
         while (link == null) {
         	LOGGER.info("Please enter a customer ID");
         	custId = utils.getLong(); 	
@@ -57,32 +61,41 @@ public class OrdersController implements CrudController<Orders>{
         			continue;
         		}
         	}else {
-        		link = linkDAO.create(link);
+        		link = new Link(custId);
+        		Link linkVariable = linkDAO.create(link);
+        		LOGGER.info("detail created");
+        		LOGGER.info(link);
+        		LOGGER.info(linkVariable);
         	}
-        Orders order = null;	
-        Long itemId = null;
-        while(order == null) {
+        }
+        while(itemLoop) {
         	LOGGER.info("Please enter the item ID");
         	itemId = utils.getLong();
+        	if(itemId == -1) {
+    			itemLoop = false;
+    			continue;
+    		}
         	if(itemDAO == null) {
-        		if(itemId == -1) {
-        			break;
-        		}
+        		
         		if(itemId == null) {
         			LOGGER.info("Please enter an existing item ID");
         			continue;
         		}
-        	}	
+        	}
+        	
+        	itemLoop = false;
+        
+        
 		LOGGER.info("Please enter a quantity");
 		int quantity = utils.getInt();
 		LOGGER.info("Please enter the status of this order");
 		String orderStat = utils.getString();
-		order = ordersDAO.create(new Orders(custId, itemId, quantity, orderStat));
+		order = ordersDAO.create(new Orders(link.getOrderId(), itemId, quantity, orderStat));
 		LOGGER.info("Item created");
-		}
+        
 		return order;
         }
-		return null;
+		return order;
 	}
 
 	//for the user to update an order

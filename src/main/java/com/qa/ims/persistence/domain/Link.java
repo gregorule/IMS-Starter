@@ -12,8 +12,18 @@ public class Link {
 		this.orderId = orderId;
 		this.customerId = customerId;
 	}
+	
+	
 
 	
+	public Link(Long customerId) {
+		super();
+		this.customerId = customerId;
+	}
+
+
+
+
 	//Getters and Setters
 	public Long getOrderId() {
 		return orderId;

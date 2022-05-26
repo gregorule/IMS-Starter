@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS order_details(
 `item_id` int NOT NULL,
 `quantity` int NOT NULL,
 `order_status` varchar(50) NOT NULL,
+`cost` decimal(4,2) NOT NULL,
 primary key(details_id),
 foreign key(order_id) references orders(order_id),
 foreign key(item_id) references items(item_id)

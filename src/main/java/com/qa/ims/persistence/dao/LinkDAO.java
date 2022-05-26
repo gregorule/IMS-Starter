@@ -73,9 +73,8 @@ public class LinkDAO implements Dao<Link>{
 	public Link create(Link link) {
 			try (Connection connection = DBUtils.getInstance().getConnection();
 					PreparedStatement statement = connection
-							.prepareStatement("INSERT INTO orders(order_id, customer_id) VALUES (?, ?)");) {
-				statement.setLong(1, link.getOrderId());
-				statement.setLong(2, link.getCustomerId());
+							.prepareStatement("INSERT INTO orders(customer_id) VALUES (?)");) {
+				statement.setLong(1, link.getCustomerId());
 				statement.executeUpdate();
 				return readLatest();
 			} catch (Exception e) {

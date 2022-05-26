@@ -20,8 +20,7 @@ public class Orders {
 
 
 	//Constructors with ID
-	public Orders(Long detailsId, Long orderId, Long itemId, int quantity,
-			String orderStatus) {
+	public Orders(Long detailsId, Long orderId, Long itemId, int quantity,	String orderStatus) {
 		this.detailsId = detailsId;
 		this.orderId = orderId;
 		this.itemId = itemId;
@@ -32,7 +31,6 @@ public class Orders {
 	
 	//Constructors with cost
 	public Orders(Long detailsId, Long orderId, Long itemId, int quantity, String orderStatus, float cost) {
-		super();
 		this.detailsId = detailsId;
 		this.orderId = orderId;
 		this.itemId = itemId;
