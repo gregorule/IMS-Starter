@@ -25,7 +25,8 @@ public class OrdersDAO implements Dao<Orders> {
 		Long itemId = resultSet.getLong("item_id");//Foreign key
 		String orderStat = resultSet.getString("order_status");
 		int quantity = resultSet.getInt("quantity");
-		return new Orders(detailsId, orderId, itemId, quantity, orderStat);
+		float cost = resultSet.getFloat("cost");
+		return new Orders(detailsId, orderId, itemId, quantity, orderStat, cost);
 	}
 
 	//readAll
@@ -83,10 +84,11 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders create(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO order_details(item_id, order_status, quantity) VALUES (?, ?, ?)");) {
+						.prepareStatement("INSERT INTO order_details(item_id, order_status, quantity, cost) VALUES (?, ?, ?, ?)");) {
 			statement.setLong(1, orders.getItemId());
 			statement.setString(2, orders.getOrderStatus());
 			statement.setInt(3, orders.getQuantity());
+			statement.setDouble(4, orders.getCost());
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
@@ -102,7 +104,7 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders update(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE order_details SET item_id = ?, order_status = ?, quantity = ? WHERE details_id = ?");) {
+						.prepareStatement("UPDATE order_details SET item_id = ?, order_status = ?, quantity = ?, cost = ? WHERE details_id = ?");) {
 			statement.setLong(1, orders.getItemId());
 			statement.setString(2, orders.getOrderStatus());
 			statement.setInt(3, orders.getQuantity());
@@ -129,6 +131,12 @@ public class OrdersDAO implements Dao<Orders> {
 		return 0;
 	}
 	
+	//To calculate the cost of the order
+	public String getCost(Long itemId) {
+		ItemDAO itemDAO = new ItemDAO();
+		float cost = itemDAO.read(itemId).getPrice();
+		return String.valueOf(cost);
+	}
 	
 
 }
