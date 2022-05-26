@@ -56,8 +56,20 @@ public class OrdersController implements CrudController<Orders>{
         			continue;
         		}
         	}
-		LOGGER.info("Please enter the item ID");
-		Long itemId = utils.getLong();
+        Long itemId = null;
+       	Orders order2 = null;
+        while(order2 == null) {
+        	LOGGER.info("Please enter the item ID");
+        	itemId = utils.getLong();
+        	if(itemDAO == null) {
+        		if(itemId == -1) {
+        			break;
+        		}
+        		if(itemId == null) {
+        			LOGGER.info("Please enter an existing item ID");
+        			continue;
+        		}
+        	}	
 		LOGGER.info("Please enter a quantity");
 		int quantity = utils.getInt();
 		LOGGER.info("Please enter the status of this order");
@@ -65,6 +77,7 @@ public class OrdersController implements CrudController<Orders>{
 		Orders orders = ordersDAO.create(new Orders(custId, itemId, quantity, orderStat));
 		LOGGER.info("Item created");
 		return orders;
+        }
         }
 		return order;
 	}
