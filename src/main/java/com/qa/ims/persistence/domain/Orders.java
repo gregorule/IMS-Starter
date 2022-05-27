@@ -8,6 +8,7 @@ public class Orders {
 	private Long itemId;//foreign key
 	private int quantity;
 	private String orderStatus;
+	private float cost;
 	
 	//Constructors without ID
 	public Orders(Long orderId, Long itemId, int quantity, String orderStatus) { 
@@ -19,13 +20,34 @@ public class Orders {
 
 
 	//Constructors with ID
-	public Orders(Long detailsId, Long orderId, Long itemId, int quantity,
-			String orderStatus) {
+	public Orders(Long detailsId, Long orderId, Long itemId, int quantity,	String orderStatus) {
 		this.detailsId = detailsId;
 		this.orderId = orderId;
 		this.itemId = itemId;
 		this.quantity = quantity;
 		this.orderStatus = orderStatus;
+	}
+	
+	
+	//Constructors with cost
+	public Orders(Long detailsId, Long orderId, Long itemId, int quantity, String orderStatus, float cost) {
+		this.detailsId = detailsId;
+		this.orderId = orderId;
+		this.itemId = itemId;
+		this.quantity = quantity;
+		this.orderStatus = orderStatus;
+		this.cost = cost;
+	}
+	
+	
+
+
+	public Orders(Long orderId, Long itemId, int quantity, String orderStatus, float cost) {
+		this.orderId = orderId;
+		this.itemId = itemId;
+		this.quantity = quantity;
+		this.orderStatus = orderStatus;
+		this.cost = cost;
 	}
 
 
@@ -69,11 +91,20 @@ public class Orders {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
+	
+	public float getCost() {
+		return cost;
+	}
+	
+	public void setCost(float cost) {
+		this.cost = cost;
+	}
+	
 
 	//toString
 	@Override
 	public String toString() {
-		return "Orders Details Id: " + detailsId + ", Order Id: " + orderId + ", Item Id: " + itemId + ", Quantity: " + quantity + ", Order Status: " + orderStatus;
+		return "Orders Details Id: " + detailsId + ", Order Id: " + orderId + ", Item Id: " + itemId + ", Quantity: " + quantity + ", Order Status: " + orderStatus + ", Cost: £" + cost;
 	}
 
 
@@ -82,6 +113,7 @@ public class Orders {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + Float.floatToIntBits(cost);
 		result = prime * result + ((detailsId == null) ? 0 : detailsId.hashCode());
 		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
@@ -100,6 +132,8 @@ public class Orders {
 		if (getClass() != obj.getClass())
 			return false;
 		Orders other = (Orders) obj;
+		if (Float.floatToIntBits(cost) != Float.floatToIntBits(other.cost))
+			return false;
 		if (detailsId == null) {
 			if (other.detailsId != null)
 				return false;
@@ -124,6 +158,10 @@ public class Orders {
 			return false;
 		return true;
 	}
+
+
+	
+	
 
 	
 	

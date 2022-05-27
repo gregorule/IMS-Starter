@@ -4,10 +4,12 @@ import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-public class ItemTest {
+public class LinkTest {
 	
 	@Test
 	public void simpleEqualsContract() {
-	    EqualsVerifier.simple().forClass(Item.class).verify();
+	    EqualsVerifier.simple().forClass(Link.class).verify();
 	}
+
+
 }

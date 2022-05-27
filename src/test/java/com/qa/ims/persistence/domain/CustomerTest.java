@@ -7,8 +7,8 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 public class CustomerTest {
 
 	@Test
-	public void testEquals() {
-		EqualsVerifier.simple().forClass(Customer.class).verify();
+	public void simpleEqualsContract() {
+	    EqualsVerifier.simple().forClass(Customer.class).verify();
 	}
 
 }

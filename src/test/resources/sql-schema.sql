@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS `order_details`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `customers`; 
+DROP TABLE IF EXISTS `items`;
+
+-- USE `test_ims` ;
+
 DROP TABLE IF EXISTS `customers`;
 
 CREATE TABLE IF NOT EXISTS `customers` (
@@ -21,13 +28,23 @@ PRIMARY KEY (item_id)
 
 DROP TABLE IF EXISTS `order_details`;
 
-CREATE TABLE IF NOT EXISTS order_details(
-`details_id` int NOT NULL auto_increment,
-`order_id` int NOT NULL,
-`item_id` int NOT NULL,
-`quantity` int NOT NULL,
-`order_status` varchar(50) NOT NULL,
-primary key(details_id),
-foreign key(order_id) references orders(order_id),
-foreign key(item_id) references items(item_id)
+CREATE TABLE IF NOT EXISTS `order_details`(
+`details_id` INT NOT NULL auto_increment,
+`order_id` INT NOT NULL,
+`item_id` INT NOT NULL,
+`order_status` VARCHAR(50) NOT NULL,
+`quantity` INT NOT NULL,
+`cost` DECIMAL(4,2),
+PRIMARY KEY(details_id),
+FOREIGN KEY(order_id) REFERENCES orders(order_id),
+FOREIGN KEY(item_id) REFERENCES items(item_id)
+);
+
+DROP TABLE IF EXISTS `orders`;
+
+CREATE TABLE IF NOT EXISTS orders(
+`order_id` int NOT NULL auto_increment,
+`customer_id` int NOT NULL,
+primary key(order_id),
+foreign key(customer_id) references customers(customer_id)
 );

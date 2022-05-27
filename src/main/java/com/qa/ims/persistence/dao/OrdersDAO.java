@@ -17,18 +17,20 @@ public class OrdersDAO implements Dao<Orders> {
 	
 	public static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 	
+	
 	//model
 	@Override
 	public Orders modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long detailsId = resultSet.getLong("details_id");
-		Long orderId = resultSet.getLong("order_id");
-		Long itemId = resultSet.getLong("item_id");
+		Long orderId = resultSet.getLong("order_id");//Foreign key
+		Long itemId = resultSet.getLong("item_id");//Foreign key
 		String orderStat = resultSet.getString("order_status");
 		int quantity = resultSet.getInt("quantity");
-		return new Orders(detailsId, orderId, itemId, quantity, orderStat);
+		float cost = quantity * Float.parseFloat(getCost(itemId));
+		return new Orders(detailsId, orderId, itemId, quantity, orderStat, cost);
 	}
 
-	//readAll
+	//reads all the orders
 	@Override
 	public List<Orders> readAll() {
 		try(Connection connection = DBUtils.getInstance().getConnection();
@@ -46,7 +48,7 @@ public class OrdersDAO implements Dao<Orders> {
 		return new ArrayList<>();
 	}
 	
-	//readLatest
+	//read the latest entry
 	public Orders readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
@@ -78,15 +80,24 @@ public class OrdersDAO implements Dao<Orders> {
 		return null;
 	}
 	
-	//create
+	//To calculate the cost of the order
+			public String getCost(Long itemId) {
+				ItemDAO itemDAO = new ItemDAO();
+				float cost = itemDAO.read(itemId).getPrice();
+				return String.valueOf(cost);
+			}
+	
+	//to create a new order
 	@Override
 	public Orders create(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO order_details(item_id, order_status, quantity) VALUES (?, ?, ?)");) {
-			statement.setLong(1, orders.getItemId());
-			statement.setString(2, orders.getOrderStatus());
-			statement.setInt(3, orders.getQuantity());
+						.prepareStatement("INSERT INTO order_details(order_id, item_id, order_status, quantity, cost) VALUES (?, ?, ?, ?, ?)");) {
+			statement.setLong(1, orders.getOrderId());
+			statement.setLong(2, orders.getItemId());
+			statement.setString(3, orders.getOrderStatus());
+			statement.setInt(4, orders.getQuantity());
+			statement.setDouble(5, orders.getCost());
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
@@ -97,12 +108,12 @@ public class OrdersDAO implements Dao<Orders> {
 	}
 	
 
-	//update
+	//to update an existing order
 	@Override
 	public Orders update(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE order_details SET item_id = ?, order_status = ?, quantity = ? WHERE details_id = ?");) {
+						.prepareStatement("UPDATE order_details SET item_id = ?, order_status = ?, quantity = ?, cost = ? WHERE details_id = ?");) {
 			statement.setLong(1, orders.getItemId());
 			statement.setString(2, orders.getOrderStatus());
 			statement.setInt(3, orders.getQuantity());
@@ -116,6 +127,7 @@ public class OrdersDAO implements Dao<Orders> {
 		return null;
 	}
 
+	//to delete an order
 	@Override
 	public int delete(long detailsId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -128,6 +140,7 @@ public class OrdersDAO implements Dao<Orders> {
 		}
 		return 0;
 	}
+	
 	
 	
 
