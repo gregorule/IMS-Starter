@@ -1,4 +1,4 @@
-Coverage: 34%
+Coverage: 67%
 # IMS Starter Project (Gregor Rule)
 
 Project outlines that an application needs to be created using Java that interacts with a managed database using mysql. This application should allow users to create, read, update and delete customers, items and orders as well as calculate the cost of  an order.
