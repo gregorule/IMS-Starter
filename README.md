@@ -1,7 +1,7 @@
-Coverage: 34%
-# Project Title
+Coverage: 67%
+# IMS Starter Project (Gregor Rule)
 
-One Paragraph of project description goes here
+Project outlines that an application needs to be created using Java that interacts with a managed database using mysql. This application should allow users to create, read, update and delete customers, items and orders as well as calculate the cost of  an order.
 
 ## Getting Started
 
@@ -9,29 +9,28 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Here are the links to install all the required software:
+mySQL - https://dev.mysql.com/downloads/windows/installer/8.0.html
+Java with Eclipse - https://www.oracle.com/java/technologies/downloads/#java8
 
-```
-Give examples
-```
+
+
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+You need to fork this repository and link it to your Eclipse to use the code. Once you have forked the repo, on Eclipse go to file>Open Project From File System.. and then find where you saved it.
 
-Say what the step will be
+## Using the application
 
-```
-Give the example
-```
+Go to the Runner and run as a Java apllication.
 
-And repeat
+From the options of CUSTOMER, ITEM and ORDERS select which you would like to access. The option STOP closes the application.
 
-```
-until finished
-```
+After selecting which option you would like to access you can then choose to CREATE, READ, UPDATE or DELETE information for either a customer, item or order. The option RETURN will take you back to the first selection.
 
-End with an example of getting some data out of the system or using it for a little demo
+From making a further selection you will need to fill in further information as to how you would like to go forward with the program. For example, the name and contact details of the customer or the price and stock of the items.
+
+
 
 ## Running the tests
 
@@ -39,26 +38,31 @@ Explain how to run the automated tests for this system. Break down into which te
 
 ### Unit Tests 
 
-Explain what these tests test, why and how to run them
+Unit tests ensure that the basic connections between the database and Java are working by putting in test data.
 
-```
-Give an example
-```
+@Test
+	public void testReadAll() {
+		List<Orders> expected = new ArrayList<>();
+		expected.add(new Orders(1L, 1L, 1L, 20, "Delivered", 2.3f));
+		assertEquals(expected, DAO.readAll());
+	}
 
 ### Integration Tests 
-Explain what these tests test, why and how to run them
 
-```
-Give an example
-```
+  Mockito is the integration testing system used. This 'mocks' the methods that are run for objects.
 
-### And coding style tests
+@Test
+	public void testReadAll() {
+		List<Customer> customers = new ArrayList<>();
+		customers.add(new Customer(1L, "jordan", "harrison", "jharrison@gmail.com", "0131384685"));
 
-Explain what these tests test and why
+		Mockito.when(dao.readAll()).thenReturn(customers);
 
-```
-Give an example
-```
+		assertEquals(customers, controller.readAll());
+
+		Mockito.verify(dao, Mockito.times(1)).readAll();
+	}
+
 
 ## Deployment
 
@@ -75,6 +79,7 @@ We use [SemVer](http://semver.org/) for versioning.
 ## Authors
 
 * **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
+* **Gregor Rule** - *Project work* - https://github.com/gregorule/
 
 ## License
 
@@ -87,3 +92,4 @@ This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md
 * Hat tip to anyone whose code was used
 * Inspiration
 * etc
+* big thanks to Chris for his help on this
