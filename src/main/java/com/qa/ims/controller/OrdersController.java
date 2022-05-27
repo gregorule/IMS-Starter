@@ -101,17 +101,54 @@ public class OrdersController implements CrudController<Orders>{
 	//for the user to update an order
 	@Override
 	public Orders update() {
-		LOGGER.info("Please enter the order ID");
-		Long orderId = utils.getLong();
-		LOGGER.info("Please enter a customer ID");
-		Long custId = utils.getLong();
-		LOGGER.info("Please enter an item ID");
-		Long itemId = utils.getLong();
+		Long custId = null;
+        Link link = null;
+        Orders order = null;	
+        Long itemId = null;
+        boolean itemLoop = true;
+        while (link == null) {
+        	LOGGER.info("Please enter the order ID");
+    		Long orderId = utils.getLong();
+    		LOGGER.info("Please enter a customer ID");
+    		custId = utils.getLong();
+    		
+    		if (linkDAO == null) {
+    			if(orderId == -1) {
+    				break;
+    			}
+    			if(orderId == null) {
+    				LOGGER.info("Please enter an existing order ID");
+        			continue;
+    			}
+    			
+    		}else {
+    			link = new Link(orderId, custId);
+    			Link linkVariable = linkDAO.update(link);
+    		}
+    	
+        }
+        while(itemLoop) {
+        	LOGGER.info("Please enter an item ID");
+    		itemId = utils.getLong();
+    		if(itemId == -1) {
+    			itemLoop = false;
+    			continue;
+    		}
+    		if (itemDAO == null){
+    			LOGGER.info("Please enter an existing item ID");
+    			continue;
+    		}
+    		itemLoop = false;
+        }
+        
+		
+		
+		
 		LOGGER.info("Please enter the quantity");
 		int quantity = utils.getInt();
 		LOGGER.info("Please enter the status of this order");
 		String orderStat = utils.getString();
-		Orders orders = ordersDAO.update(new Orders(orderId, custId, itemId, quantity, orderStat));
+		Orders orders = ordersDAO.update(new Orders(link.getOrderId(), link.getCustomerId(), itemId, quantity, orderStat));
 		LOGGER.info("Item updated");
 		return orders;
 	}

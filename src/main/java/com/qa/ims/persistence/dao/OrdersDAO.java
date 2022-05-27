@@ -30,7 +30,7 @@ public class OrdersDAO implements Dao<Orders> {
 		return new Orders(detailsId, orderId, itemId, quantity, orderStat, cost);
 	}
 
-	//readAll
+	//reads all the orders
 	@Override
 	public List<Orders> readAll() {
 		try(Connection connection = DBUtils.getInstance().getConnection();
@@ -48,7 +48,7 @@ public class OrdersDAO implements Dao<Orders> {
 		return new ArrayList<>();
 	}
 	
-	//readLatest
+	//read the latest entry
 	public Orders readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
@@ -87,7 +87,7 @@ public class OrdersDAO implements Dao<Orders> {
 				return String.valueOf(cost);
 			}
 	
-	//create
+	//to create a new order
 	@Override
 	public Orders create(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -108,7 +108,7 @@ public class OrdersDAO implements Dao<Orders> {
 	}
 	
 
-	//update
+	//to update an existing order
 	@Override
 	public Orders update(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -127,6 +127,7 @@ public class OrdersDAO implements Dao<Orders> {
 		return null;
 	}
 
+	//to delete an order
 	@Override
 	public int delete(long detailsId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();

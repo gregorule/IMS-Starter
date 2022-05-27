@@ -38,6 +38,17 @@ public class Orders {
 		this.orderStatus = orderStatus;
 		this.cost = cost;
 	}
+	
+	
+
+
+	public Orders(Long orderId, Long itemId, int quantity, String orderStatus, float cost) {
+		this.orderId = orderId;
+		this.itemId = itemId;
+		this.quantity = quantity;
+		this.orderStatus = orderStatus;
+		this.cost = cost;
+	}
 
 
 	//Getters and Setters
