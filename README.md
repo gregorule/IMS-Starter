@@ -1,7 +1,7 @@
 Coverage: 34%
-# Project Title
+# IMS Starter Project
 
-One Paragraph of project description goes here
+Project outlines that an application needs to be created using Java that interacts with a managed database using mysql. This application should allow users to create, read, update and delete customers, items and orders as well as calculate the cost of  an order.
 
 ## Getting Started
 
@@ -75,6 +75,7 @@ We use [SemVer](http://semver.org/) for versioning.
 ## Authors
 
 * **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
+* **Gregor Rule** - *Project work* - https://github.com/gregorule/
 
 ## License
 
